@@ -1,7 +1,7 @@
 const express = require('express');
+const bodyParser = require('body-parser')
 
-const phrases = require('./data/phrases');
-
+const Phrases = require('./middleware/phraseHandlers')
 const logger = require('./middleware/logger');
 
 const PORT = 1337;
@@ -11,7 +11,13 @@ const app = express();
 
 app.use(logger);
 //serve static assests
+app.use(bodyParser.json());
 app.use('/client', express.static(__dirname + '/client'));
+
+app.get('/phrases', Phrases.getAll);
+app.post('/phrases', Phrases.addOne);
+
+app.get('/phrases/:id', Phrases.getOneByID);
 
 //serve index.html on GET /
 app.get('/', (req, res) => {
