@@ -14,8 +14,10 @@ app.use(logger);
 app.use(bodyParser.json());
 app.use('/client', express.static(__dirname + '/client'));
 
-app.get('/phrases', Phrases.getAll);
-app.post('/phrases', Phrases.addOne);
+
+app.route('/phrases')
+  .get(Phrases.getAll)
+  .post(Phrases.addOne);
 
 app.get('/phrases/:id', Phrases.getOneByID);
 
