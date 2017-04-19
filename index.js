@@ -6,12 +6,18 @@ const PORT = 1337;
 const IP = '127.0.0.1';
 const app = express();
 
+
+app.use((req, res, next) => {
+  console.log(`Serving: ${req.method} to ${req.url}`);
+  next();
+});
+//serve static assests
+app.use('/client', express.static(__dirname + '/client'));
+
+//serve index.html on GET /
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/client/index.html');
 });
-
-//serve static assests
-app.use('/client', express.static(__dirname + '/client'));
 
 
 app.listen(PORT, () => {
